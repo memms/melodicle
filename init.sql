@@ -38,3 +38,7 @@ CREATE TABLE IF NOT EXISTS user_passwords (
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+CREATE TABLE IF NOT EXISTS song_analytics {
+    song_id uuid 
+}
