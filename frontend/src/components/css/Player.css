@@ -1,0 +1,102 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .game-title {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .game-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .game-playing-line-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .game-playing-line {
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .game-playing-line-progress {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 5px;
+  }
+  
+  .game-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .game-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .game-button-skip {
+    background-color: #ff9800;
+  }
+  
+  .game-button-play {
+    background-color: #4caf50;
+  }
+  
+  .game-button-stop {
+    background-color: #f44336;
+  }
+  
+  .game-button-next {
+    background-color: #9c27b0;
+  }
+
+  .game-button-submit {
+    background-color: #4c53af;
+  }
+  
+  .game-button:hover {
+    opacity: 0.8;
+  }
+  
+  .game-guess-input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .game-guess-field {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .game-guesses {
+    width: 100%;
+  }
+  
+  .game-guesses-list {
+    list-style-type: none;
+    padding: 0;
+  }
