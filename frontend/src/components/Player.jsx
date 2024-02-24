@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from "react";
 import "./css/Player.css";
+import PropTypes from "prop-types";
 
-const Player = (props) => {
-	const [playingLineWidth, setPlayingLineWidth] = useState("0%"); // Create a state variable for the width of the playing line
+const Player = ({ videoId, onNextSong }) => {
+	const [playingLineWidth, setPlayingLineWidth] = useState("6.25%"); // Create a state variable for the width of the playing line
 	const [currentMarkerIndex, setCurrentMarkerIndex] = useState(0);
-	const markers = [6.25, 12.5, 25, 43.75, 68.75, 100]; // Create an array of markers
-	const timeSkipMarker = [1, 1, 2, 3, 4, 5]; // Create an array of time markers
+	const markers = [12.5, 25, 43.75, 68.75, 100]; // Create an array of markers
+	const timeSkipMarker = [1, 2, 3, 4, 5]; // Create an array of time markers
 
 	useEffect(() => {
 		// Load the IFrame Player API code asynchronously.
@@ -14,21 +15,43 @@ const Player = (props) => {
 		var firstScriptTag = document.getElementsByTagName("script")[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+		// Create the 'ytplayer' element dynamically.
+		var ytplayer = document.createElement("div");
+		ytplayer.id = "ytplayer";
+		document.body.appendChild(ytplayer);
+
 		// Replace the 'ytplayer' element with an <iframe> and
 		// YouTube player after the API code downloads.
 		window.onYouTubeIframeAPIReady = function () {
 			window.player = new window.YT.Player("ytplayer", {
 				height: "0",
 				width: "0",
-				videoId: "vt0i6nuqNEo",
+				videoId: videoId,
 			});
 		};
 	}, []);
 
+	useEffect(() => {
+		onStopClick();
+		if (window.player) {
+			window.player.destroy();
+			window.player = new window.YT.Player("ytplayer", {
+				height: "0",
+				width: "0",
+				videoId: videoId,
+			});
+		}
+	}, [videoId]);
+
 	function onNextClick() {
 		// Set the width of the playing line to 0%
-		setPlayingLineWidth("0%");
+		onStopClick();
+		setPlayingLineWidth("6.25%");
 		setCurrentMarkerIndex(0);
+
+		if (onNextSong) {
+			onNextSong();
+		}
 
 		// TODO: Reset all.
 	}
@@ -44,21 +67,7 @@ const Player = (props) => {
 
 	let intervalId;
 
-	const onPlayClick = () => {
-		// if (window.player && window.player.playVideo) {
-		// 	window.player.playVideo();
-		// 	const timeMarker = [1, 2, 4, 7, 11, 16];
-		// 	const time =
-		// 		currentMarkerIndex < timeMarker.length
-		// 			? timeMarker[currentMarkerIndex]
-		// 			: 16;
-		// 	setTimeout(() => {
-		// 		if (window.player && window.player.pauseVideo) {
-		// 			console.log(window.player.getCurrentTime());
-		// 			window.player.stopVideo();
-		// 		}
-		// 	}, time * 1000);
-		// }
+	function onPlayClick() {
 		if (window.player && window.player.playVideo) {
 			window.player.playVideo();
 
@@ -84,14 +93,14 @@ const Player = (props) => {
 				}
 			}, 500); // Check every 200ms, 500ms or 1000ms?
 		}
-	};
+	}
 
-	const onStopClick = () => {
+	function onStopClick() {
 		if (window.player && window.player.stopVideo) {
 			window.player.stopVideo();
-			clearInterval(intervalId);
 		}
-	};
+		clearInterval(intervalId);
+	}
 
 	return (
 		<div className="game-container">
@@ -104,6 +113,18 @@ const Player = (props) => {
 				<div className="game-playing-line">
 					<div className="game-playing-line-markers">
 						{/* Marker divs */}
+						<div className="marker" style={{ left: "6.25%" }}></div>
+						<div className="marker" style={{ left: "12.5%" }}></div>
+						<div className="marker" style={{ left: "25%" }}></div>
+						<div
+							className="marker"
+							style={{ left: "43.75%" }}
+						></div>
+						<div
+							className="marker"
+							style={{ left: "68.75%" }}
+						></div>
+						<div className="marker" style={{ left: "100%" }}></div>
 					</div>
 					<div
 						id="playing-line"
@@ -118,7 +139,7 @@ const Player = (props) => {
 					onClick={onSkipClick}
 				>
 					Skip (
-					{currentMarkerIndex < 6
+					{currentMarkerIndex < markers.length
 						? timeSkipMarker[currentMarkerIndex]
 						: "to Next"}
 					)
@@ -165,6 +186,11 @@ const Player = (props) => {
 			<div id="ytplayer"></div>
 		</div>
 	);
+};
+
+Player.propTypes = {
+	videoId: PropTypes.string.isRequired,
+	onNextSong: PropTypes.func,
 };
 
 export default Player;

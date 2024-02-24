@@ -2,19 +2,21 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Router } from 'react-router-dom';
+import Topbar from './header/Topbar';
 
 function App() {
   return (
-    <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+          <Topbar user={true}  />
+          <div className="App">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>    
+          </div>
+      </BrowserRouter>
   );
 }
 
