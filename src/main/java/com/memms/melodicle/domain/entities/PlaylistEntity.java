@@ -17,7 +17,7 @@ import java.util.List;
 public class PlaylistEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playlistId;
 
     @Column
