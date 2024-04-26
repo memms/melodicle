@@ -1,10 +1,10 @@
 package com.memms.melodicle.domain.vo;
 
 import com.memms.melodicle.domain.entities.PlaylistEntity;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -18,16 +18,20 @@ public class User {
 
     @NotNull
     @NotBlank
+    @Size(min = 3, max = 30)
     private String username;
 
     @NotNull
-    private String passwordHash;
+    @NotBlank
+    private String password;
 
     @NotNull
     @NotBlank
+    @Size(min = 2, max = 30)
     private String fname;
 
     @NotBlank
+    @Size(min = 2, max = 30)
     private String lname;
 
     @Email

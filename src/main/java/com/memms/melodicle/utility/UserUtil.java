@@ -12,7 +12,7 @@ public class UserUtil {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(user.getUsername());
-        userEntity.setPasswordHash(user.getPasswordHash());
+        userEntity.setPasswordHash(user.getPassword());
         userEntity.setFname(user.getFname());
         userEntity.setLname(user.getLname());
         userEntity.setEmail(user.getEmail());
