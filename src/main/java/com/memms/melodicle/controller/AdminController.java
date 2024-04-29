@@ -5,9 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.memms.melodicle.domain.dto.UserDTO;
+import com.memms.melodicle.domain.vo.User;
 import com.memms.melodicle.exceptions.UserNotFoundException;
 import com.memms.melodicle.services.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,4 +46,23 @@ public class AdminController {
         UserDTO userDTO = adminService.getUserById(uid);
         return ResponseEntity.ok(userDTO);
     }
+
+    @Operation(summary = "Delete a user by ID")
+    @DeleteMapping(path = "/user/{uid}")
+    @PreAuthorize("hasAuthority('admin:delete')")
+    public ResponseEntity<?> deleteUserById (@PathVariable("uid") Long uid) {
+        adminService.deleteUserById(uid);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Update a user, cannot create new account.")
+    @PutMapping(path = "/user/{uid}")
+    @PreAuthorize("hasAuthority('admin:update')")
+    public ResponseEntity<?> updateUserById (@PathVariable("uid") Long uid, @RequestBody User user) {
+        adminService.updateUserById(uid, user);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }

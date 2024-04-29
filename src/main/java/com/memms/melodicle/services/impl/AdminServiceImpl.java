@@ -7,10 +7,12 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.memms.melodicle.domain.dto.UserDTO;
 import com.memms.melodicle.domain.entities.UserEntity;
+import com.memms.melodicle.domain.vo.User;
 import com.memms.melodicle.exceptions.UserNotFoundException;
 import com.memms.melodicle.repository.UserRepository;
 import com.memms.melodicle.services.AdminService;
 import com.memms.melodicle.utility.UserUtil;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserDTO applyPatchToUser(Long uid, JsonPatch jsonPatch) throws JsonProcessingException, JsonPatchException {
 
-        UserEntity userEntity = userRepository.findById(uid)
-                .orElseThrow(() -> new EntityNotFoundException("user with id " + uid + " not found"));
+        UserEntity userEntity = getUserEntityById(uid);
 
         JsonNode patched = jsonPatch.apply(jacksonObjectMapper.convertValue(userEntity, JsonNode.class));
 
@@ -46,12 +47,37 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public UserDTO getUserById(Long uid) {
-        UserEntity userEntity = userRepository.findById(uid)
+        UserEntity userEntity = getUserEntityById(uid);
+        return UserUtil.convertToDTO(userEntity);
+    }
+
+    @Override
+    public void deleteUserById(Long uid) {
+        UserEntity userEntity = getUserEntityById(uid);
+        userRepository.delete(userEntity);
+    }
+
+    @Override
+    public void updateUserById(Long uid, User user) {
+        UserEntity userEntity = getUserEntityById(uid);
+        if(userEntity.getUsername()!=user.getUsername()){
+            Optional<UserEntity> userEntityOptional1 = userRepository.findByUsername(user.getUsername());
+            if(userEntityOptional1.isPresent()){
+                throw new EntityExistsException("Username " + user.getUsername() + " already exists");
+            }
+            userEntity.setUsername(user.getUsername());
+        }
+        userEntity.setLname(user.getLname());
+        userEntity.setFname(user.getFname());
+        userEntity.setEmail(user.getEmail());
+        userRepository.save(userEntity);
+    }
+
+
+    private UserEntity getUserEntityById(Long uid){
+        return userRepository.findById(uid)
                 .orElseThrow(() -> new EntityNotFoundException("user with id " + uid + " not found"));
 
-        UserDTO userDTO = UserUtil.convertToDTO(userEntity);
-//        TODO
-        return userDTO;
-
     }
+
 }
