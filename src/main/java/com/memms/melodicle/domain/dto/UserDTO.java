@@ -1,9 +1,9 @@
 package com.memms.melodicle.domain.dto;
 
-import com.memms.melodicle.domain.entities.PlaylistEntity;
+import com.memms.melodicle.domain.security.RoleNames;
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
@@ -20,6 +20,6 @@ public class UserDTO {
 
     private String email;
 
-    private String password;
+    private Set<RoleNames> roles;
 
 }
