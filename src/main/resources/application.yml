@@ -25,11 +25,11 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create-drop    #TODO: Change This for PROD.
+      ddl-auto: update    #TODO: Change This for PROD.
     defer-datasource-initialization: true
   sql:
     init:
-      mode: always
+      mode: never
 
 memms:
   app:
