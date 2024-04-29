@@ -33,7 +33,7 @@ public class PlaylistEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToMany(cascade = CascadeType.ALL)  //TODO: Change appropriately
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)  //TODO: Change appropriately
     @JoinTable(
             name = "playlist_songs",
             joinColumns = @JoinColumn(name = "playlist_id"),
