@@ -55,7 +55,7 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-        log.info(userPrincipal.toString());
+//        log.info(userPrincipal.toString());
         return Jwts.builder()
                 .subject(userPrincipal.getUsername())
                 .issuedAt(new Date())

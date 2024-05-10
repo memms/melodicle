@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -60,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateUserById(Long uid, User user) {
         UserEntity userEntity = getUserEntityById(uid);
-        if(userEntity.getUsername()!=user.getUsername()){
+        if(!Objects.equals(userEntity.getUsername(), user.getUsername())){
             Optional<UserEntity> userEntityOptional1 = userRepository.findByUsername(user.getUsername());
             if(userEntityOptional1.isPresent()){
                 throw new EntityExistsException("Username " + user.getUsername() + " already exists");
@@ -70,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
         userEntity.setLname(user.getLname());
         userEntity.setFname(user.getFname());
         userEntity.setEmail(user.getEmail());
-        userRepository.save(userEntity);
+        userRepository.saveAndFlush(userEntity);
     }
 
 
