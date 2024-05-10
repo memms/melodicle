@@ -37,5 +37,6 @@ public class User {
     @Email
     private String email;
 
+    //TODO: Refactor to Playlist class
     private List<PlaylistEntity> playlist;
 }

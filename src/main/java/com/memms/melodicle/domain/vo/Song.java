@@ -1,27 +1,22 @@
-package com.memms.melodicle.domain.dto;
+package com.memms.melodicle.domain.vo;
 
 import com.memms.melodicle.domain.entities.ArtistEntity;
+import com.memms.melodicle.domain.entities.PlaylistEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class SongDTO {
+public class Song {
 
     private long songId;    //Youtube video id
 
     private String name;    //Song name
 
-    private ArtistDTO artistDTO;  //Song artist
+    private Artist artist;
 
-//    private List<PlaylistDTO> playlist;
-
-
+    private List<Playlist> playlist;
 }

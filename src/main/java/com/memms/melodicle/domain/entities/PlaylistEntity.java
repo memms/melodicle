@@ -29,6 +29,10 @@ public class PlaylistEntity {
     @Column
     private Integer songCount;
 
+    @Column
+    private String playlistImageURL;
+
+
     @ManyToOne(cascade = CascadeType.ALL)   //TODO: Change appropriately
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
